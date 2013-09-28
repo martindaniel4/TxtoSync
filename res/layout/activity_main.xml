@@ -6,16 +6,24 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/steelblue"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/welcome"
+    <Button 
+        android:id="@+id/buttonSync"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:text="Sync" />
+
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/buttonSync"
         android:layout_centerHorizontal="true"
-        android:paddingTop="100dp"
-        android:paddingLeft="50dp"
-        android:text="Bienvenue sur Txto" />
-
+        android:layout_marginBottom="101dp"
+        android:src="@drawable/logo_white" />
+    
 </RelativeLayout>

@@ -4,5 +4,6 @@
     <string name="app_name">TxtoSync</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <color name="steelblue">#4682b4</color>
 
 </resources>

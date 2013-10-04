@@ -9,21 +9,31 @@
     android:background="@color/steelblue"
     tools:context=".MainActivity" >
 
+    <ImageView
+        android:id="@+id/logoTxto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonSync"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:src="@drawable/logo_white" />
+    
     <Button 
         android:id="@+id/buttonSync"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="200dp"
         android:text="Sync" />
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <TextView
+        android:id="@+id/sms1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonSync"
+        android:layout_below="@+id/buttonSync"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="101dp"
-        android:src="@drawable/logo_white" />
+        android:layout_marginTop="20dp"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
 </RelativeLayout>

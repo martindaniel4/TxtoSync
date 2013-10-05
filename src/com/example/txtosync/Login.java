@@ -1,5 +1,6 @@
 package com.example.txtosync;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -8,6 +9,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -117,30 +122,39 @@ public String postData(String email, String password) {
 			// Create a new HttpClient and Post Header
 
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://localhost:3000/api/v1/login");
-
+			HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/login");
+			JSONParser parser = new JSONParser();
+			
 			try {
 				// Ajouter email et password au sein de la requête post
 
+				Log.i("martin","dans le try avant params");
+				
 				ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
 				parameters.add(new BasicNameValuePair("email", email));
 				parameters.add(new BasicNameValuePair("password", password));
-
+				
+				Log.i("martin","après les params");
+				
 				httppost.setEntity(new UrlEncodedFormEntity(parameters));
 				
-				Log.i("martin", parameters.toString());
+				Log.i("martin", "après la requête post");
 
 				// Execute HTTP Post Request
 				HttpResponse response = httpclient.execute(httppost);
-
-				Log.i("martin", "Ok tout est bon");
+				HttpEntity entity = response.getEntity();
+				
+				String token = EntityUtils.toString(entity);
+				
+				Log.i("martin", token);
 				
 				return response.toString();
 
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				
+				Log.i("martin", e.toString());
 				Log.i("martin", "merde 1");
 				
 			} catch (IOException e) {

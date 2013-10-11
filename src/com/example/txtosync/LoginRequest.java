@@ -11,6 +11,7 @@ public class LoginRequest extends AsyncTask <ArrayList<NameValuePair>, Void, Str
 	private Exception exception;
 	private ArrayList<NameValuePair> parameters;
 	
+	@Override
 	protected String doInBackground(ArrayList<NameValuePair>... String) {
 		
 		 // Construire la requête

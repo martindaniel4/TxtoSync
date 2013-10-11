@@ -1,5 +1,8 @@
 package com.example.txtosync;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -11,15 +14,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,62 +54,40 @@ public class Login extends Activity implements OnClickListener {
 
 	}
 	
-
-
-	// Construire ma requête au web-service
-	/*
-public String postData(String email, String password) {
-
-    // Create a new HttpClient and Post Header
-
-    HttpClient httpclient = new DefaultHttpClient();
-    HttpPost httppost = new HttpPost("http://localhost:3000/api/v1/login");
-
-    try {
-      // Ajouter email et password au sein de la requête post
-
-    	ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();
-
-      parameters.add(new BasicNameValuePair("email", email));
-      parameters.add(new BasicNameValuePair("password", password));
-
-      httppost.setEntity(new UrlEncodedFormEntity(parameters));
-
-      // Execute HTTP Post Request
-      HttpResponse response = httpclient.execute(httppost);
-
-      return response.toString();
-
-    } catch (ClientProtocolException e) {
-      // TODO Auto-generated catch block
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-    }
-	return null;
-
-  }
-
-	 */
 	private class MyAsyncTask extends AsyncTask<String, Void, String>{
 
+		String token = null;
+		
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			
 			Log.i("martin", "trying to connect");
-			postData(params[0], params[1]);
+			String tokenReceived = postData(params[0], params[1]);
+			
+			Log.i("martin",tokenReceived);
+			
+			token = tokenReceived;
+			
 			return null;
 		}
 
+		@Override
 		protected void onProgressUpdate(Void... progress){
 			//pb.setProgress(progress[0]);
 		}
 		
+		@Override
 		protected void onPostExecute(String result){
-			//pb.setVisibility(View.GONE);
-			//Toast.makeText(getApplicationContext(), "command sent", Toast.LENGTH_LONG).show();
+			
+			Intent sync = new Intent(Login.this, Sync.class);
+			
+			sync.putExtra("token", token);
+			
+			Login.this.startActivity(sync);
+			
 			Log.i("martin", "post executed");
-			//Log.i("martin", result);
+		
 		}
 		
 
@@ -123,33 +97,30 @@ public String postData(String email, String password) {
 
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/login");
-			JSONParser parser = new JSONParser();
+			
 			
 			try {
 				// Ajouter email et password au sein de la requête post
 
-				Log.i("martin","dans le try avant params");
-				
 				ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
 				parameters.add(new BasicNameValuePair("email", email));
 				parameters.add(new BasicNameValuePair("password", password));
 				
-				Log.i("martin","après les params");
-				
-				httppost.setEntity(new UrlEncodedFormEntity(parameters));
-				
-				Log.i("martin", "après la requête post");
+				httppost.setEntity(new UrlEncodedFormEntity(parameters));;
 
 				// Execute HTTP Post Request
 				HttpResponse response = httpclient.execute(httppost);
+				
 				HttpEntity entity = response.getEntity();
 				
-				String token = EntityUtils.toString(entity);
+				String retourResponse = EntityUtils.toString(entity);
 				
-				Log.i("martin", token);
+				String[] essai = retourResponse.split(":");
 				
-				return response.toString();
+				String token = essai[1].replace("}", "");
+
+				return token;
 
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
@@ -183,7 +154,7 @@ public String postData(String email, String password) {
 		params[0] = inputEmail.getText().toString();
 		params[1] = inputPassword.getText().toString();
 		
-	    new MyAsyncTask().execute(params);    
+	    new MyAsyncTask().execute(params);
 	    
 	}
 }

@@ -1,22 +1,23 @@
 package com.example.txtosync;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.txtosync.data.SMSData;
  
 public class Sync extends Activity {
  
 	RelativeLayout layout = null;
+	TextView smsDesc = null;
 	TextView text = null;
 	String sampleText,token;
 	int numberText;
@@ -48,8 +49,9 @@ public class Sync extends Activity {
 			}
 			c.close();
 				}
-	layout = (RelativeLayout) RelativeLayout.inflate(this, R.layout.sync, null);
+	layout = (RelativeLayout) View.inflate(this, R.layout.sync, null);
 	
+	smsDesc = (TextView) layout.findViewById(R.id.smsDesc);
 	text = (TextView) layout.findViewById(R.id.sms1);
 	
 	numberText = smsList.size();
@@ -62,6 +64,7 @@ public class Sync extends Activity {
 	
 	String token = i.getStringExtra("token");
 	
+	smsDesc.setText(numberText + " sms to sync");
 	text.setText(token);
          
     setContentView(layout);

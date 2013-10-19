@@ -36,8 +36,8 @@ public final class R {
         public static final int login=0x7f090002;
         public static final int logoTxto=0x7f090004;
         public static final int password=0x7f090001;
-        public static final int sms1=0x7f090006;
-        public static final int smsDesc=0x7f090007;
+        public static final int smsDesc=0x7f090006;
+        public static final int smsMsg=0x7f090007;
     }
     public static final class layout {
         public static final int login=0x7f030000;

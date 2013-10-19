@@ -27,25 +27,24 @@
         android:text="Sync" />
 
     <TextView
-        android:id="@+id/sms1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSync"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
         android:id="@+id/smsDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/buttonSync"
-        android:layout_alignLeft="@+id/sms1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="90dp"
         android:text="Medium Text"
         android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/smsMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/smsDesc"
+        android:layout_below="@+id/logoTxto"
+        android:layout_marginTop="32dp"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
 </RelativeLayout>

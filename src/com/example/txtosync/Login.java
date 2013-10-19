@@ -54,7 +54,7 @@ public class Login extends Activity implements OnClickListener {
 
 	}
 	
-	private class MyAsyncTask extends AsyncTask<String, Void, String>{
+	public class MyAsyncTask extends AsyncTask<String, Void, String>{
 
 		String token = null;
 		
@@ -116,9 +116,11 @@ public class Login extends Activity implements OnClickListener {
 				
 				String retourResponse = EntityUtils.toString(entity);
 				
-				String[] essai = retourResponse.split(":");
+				String[] step0 = retourResponse.split(":");
 				
-				String token = essai[1].replace("}", "");
+				String step1 = step0[1].replace("}", "");
+				
+				String token = step1.replaceAll("^\"|\"$", "");
 
 				return token;
 

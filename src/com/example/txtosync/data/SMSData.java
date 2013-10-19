@@ -1,7 +1,5 @@
 package com.example.txtosync.data;
 
-import java.util.Date;
-
 /**
  * This class represents SMS.
  *
@@ -14,6 +12,8 @@ public class SMSData {
 	private String body;
 	// Date received
 	private String date;
+	// Type (a.k.a flags)
+	private String type;
 	
 	public String getNumber() {
 		return number;
@@ -35,8 +35,16 @@ public class SMSData {
 		return date.toString();
 	}
 	
-	public void setDate(Date body) {
+	public void setDate(String date) {
 		this.date = date.toString();
+	}
+	
+	public String getType() {
+		return type.toString();
+	}
+	
+	public void setType(String type) {
+		this.type = type.toString();
 	}
 	
 }

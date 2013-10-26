@@ -37,7 +37,7 @@ public class Sync extends Activity implements OnClickListener {
 	RelativeLayout layout = null;
 	TextView smsDesc = null;
 	TextView smsMsg = null;
-	String sampleText,token,smsDataJson;
+	String sampleText,token,smsDataJson,smsData2Json;
 	int numberText;
 		
   @Override
@@ -46,14 +46,13 @@ public class Sync extends Activity implements OnClickListener {
 	  // Créer le contenu
 	  
 	  super.onCreate(savedInstanceState);
+	  setContentView(R.layout.sync);
 	  
 	  // Déclarer des variables
 	  
 	  Button btnSync = (Button) findViewById(R.id.buttonSync);
 	  btnSync.setOnClickListener(this);
 	  
-  
-    
    List<SMSData> smsList = new ArrayList<SMSData>();
     
     Uri uri = Uri.parse("content://sms/inbox");
@@ -62,17 +61,18 @@ public class Sync extends Activity implements OnClickListener {
 			query(uri, null, null ,null,null);
 	startManagingCursor(c);
     
-	
 	// Read the sms data and store it in the list
 			
 	if(c!=null) {
 			if(c.moveToFirst()) {
 				for(int i=0; i < c.getCount(); i++) {
 					SMSData sms = new SMSData();
+					
 					sms.setDate(c.getString(c.getColumnIndexOrThrow("date")).toString());
 					sms.setNumber(c.getString(c.getColumnIndexOrThrow("address")).toString());
 					sms.setBody(c.getString(c.getColumnIndexOrThrow("body")).toString());
 					sms.setType(c.getString(c.getColumnIndexOrThrow("type")).toString());
+					
 					smsList.add(sms);
 					
 					c.moveToNext();
@@ -81,11 +81,24 @@ public class Sync extends Activity implements OnClickListener {
 			c.close();		
 	}
 	
+	String tab[][] = new String[smsList.size()][4];
+	
+	     for (int i=0; i<smsList.size(); i++) {
+	         tab[i][0]= smsList.get(i).getDate();
+	         tab[i][1]= smsList.get(i).getNumber();
+	         tab[i][2]= smsList.get(i).getBody();
+	         tab[i][3]= smsList.get(i).getType();
+	     }
+	
 	// Convertir le fichier sms en JSON 
-		
+	
 	smsDataJson = new Gson().toJson(smsList);
 	
-	Log.i("martin",smsDataJson);
+	smsData2Json = new Gson().toJson(tab);
+	
+	Log.i("martin",smsData2Json);
+	
+	
 	
 	// Afficher le nombre de sms à synchroniser
 	
@@ -98,7 +111,7 @@ public class Sync extends Activity implements OnClickListener {
 	
 	smsDesc.setText(numberText + " sms to sync");
 	
-	setContentView(R.layout.sync);
+	
 	
 	// Chopper le token client de l'activité précédente 
 	
@@ -118,7 +131,7 @@ public class Sync extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			
 			Log.i("martin", "init Post to Platform");
-			postSmsData(token, smsDataJson);
+			postSmsData(token, smsData2Json);
 			
 			return null;
 		}

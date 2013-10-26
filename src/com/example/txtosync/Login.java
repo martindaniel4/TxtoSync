@@ -82,11 +82,23 @@ public class Login extends Activity implements OnClickListener {
 			
 			Intent sync = new Intent(Login.this, Sync.class);
 			
-			sync.putExtra("token", token);
+			if (token.matches(".*Email.*") || token.matches(".*Invalid.*")) {
+												
+				loginError.setText(token);
+				
+			} else  {
+				
+				loginError.setText("Success !");
+				
+				sync.putExtra("token", token);
+				
+				Login.this.startActivity(sync);
+				
+				Log.i("martin", "post executed");
+				
+			}
 			
-			Login.this.startActivity(sync);
 			
-			Log.i("martin", "post executed");
 		
 		}
 		

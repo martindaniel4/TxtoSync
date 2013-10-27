@@ -11,7 +11,7 @@ public class SMSData {
 	// SMS text body
 	private String body;
 	// Date received
-	private String date;
+	private Float date;
 	// Type (a.k.a flags)
 	private String type;
 	
@@ -31,12 +31,12 @@ public class SMSData {
 		this.body = body;
 	}
 	
-	public String getDate() {
-		return date.toString();
+	public Float getDate() {
+		return date;
 	}
 	
-	public void setDate(String date) {
-		this.date = date.toString();
+	public void setDate(Float date) {
+		this.date = date;
 	}
 	
 	public String getType() {

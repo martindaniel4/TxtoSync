@@ -128,11 +128,7 @@ public class Login extends Activity implements OnClickListener {
 				
 				String retourResponse = EntityUtils.toString(entity);
 				
-				String[] step0 = retourResponse.split(":");
-				
-				String step1 = step0[1].replace("}", "");
-				
-				String token = step1.replaceAll("^\"|\"$", "");
+				String token = retourResponse.split(":")[1].replace("}", "").replaceAll("^\"|\"$", "");
 
 				return token;
 
@@ -170,6 +166,14 @@ public class Login extends Activity implements OnClickListener {
 		
 	    new MyAsyncTask().execute(params);
 	    
+	}
+	
+	public void signUpPage(View arg0) {
+	
+		Intent signUp = new Intent(Login.this, SignUp.class);
+		
+		Login.this.startActivity(signUp);
+		
 	}
 }
 

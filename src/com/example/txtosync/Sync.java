@@ -2,6 +2,7 @@ package com.example.txtosync;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -54,9 +55,9 @@ public class Sync extends Activity implements OnClickListener {
 	  
 	  Button btnSync = (Button) findViewById(R.id.buttonSync);
 	  btnSync.setOnClickListener(this);
+	      
+	  ArrayList smsList = new ArrayList();
 	  
-   List<SMSData> smsList = new ArrayList<SMSData>();
-    
     Uri uri = Uri.parse("content://sms/inbox");
     
 	Cursor c= getContentResolver().
@@ -68,12 +69,13 @@ public class Sync extends Activity implements OnClickListener {
 	if(c!=null) {
 			if(c.moveToFirst()) {
 				for(int i=0; i < c.getCount(); i++) {
-					SMSData sms = new SMSData();
 					
-					sms.setDate(c.getString(c.getColumnIndexOrThrow("date")).toString());
-					sms.setNumber(c.getString(c.getColumnIndexOrThrow("address")).toString());
-					sms.setBody(c.getString(c.getColumnIndexOrThrow("body")).toString());
-					sms.setType(c.getString(c.getColumnIndexOrThrow("type")).toString());
+					ArrayList sms = new ArrayList();
+					
+					sms.add(Float.parseFloat(c.getString(c.getColumnIndexOrThrow("date"))));
+					sms.add(c.getString(c.getColumnIndexOrThrow("address")).toString());
+					sms.add(c.getString(c.getColumnIndexOrThrow("body")).toString());
+					sms.add(c.getString(c.getColumnIndexOrThrow("type")).toString());
 					
 					smsList.add(sms);
 					
@@ -83,24 +85,11 @@ public class Sync extends Activity implements OnClickListener {
 			c.close();		
 	}
 	
-	String tab[][] = new String[smsList.size()][4];
-	
-	     for (int i=0; i<smsList.size(); i++) {
-	         tab[i][0]= smsList.get(i).getDate();
-	         tab[i][1]= smsList.get(i).getNumber();
-	         tab[i][2]= smsList.get(i).getBody();
-	         tab[i][3]= smsList.get(i).getType();
-	     }
-	
 	// Convertir le fichier sms en JSON 
 	
 	smsDataJson = new Gson().toJson(smsList);
-	
-	smsData2Json = new Gson().toJson(tab);
-	
-	Log.i("martin",smsData2Json);
-	
-	
+		
+	Log.i("martin",smsDataJson);
 	
 	// Afficher le nombre de sms à synchroniser
 		
@@ -110,8 +99,7 @@ public class Sync extends Activity implements OnClickListener {
 	numberText = smsList.size();
 	
 	smsDesc.setText(numberText + " sms to sync");
-	
-	
+
 	
 	// Chopper le token client de l'activité précédente 
 	

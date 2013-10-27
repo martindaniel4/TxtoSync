@@ -46,7 +46,9 @@ public class Sync extends Activity implements OnClickListener {
 	  // Créer le contenu
 	  
 	  super.onCreate(savedInstanceState);
-	  setContentView(R.layout.sync);
+	  
+	  layout = (RelativeLayout) View.inflate(this, R.layout.sync, null);
+	  setContentView(layout);
 	  
 	  // Déclarer des variables
 	  
@@ -101,9 +103,7 @@ public class Sync extends Activity implements OnClickListener {
 	
 	
 	// Afficher le nombre de sms à synchroniser
-	
-	layout = (RelativeLayout) View.inflate(this, R.layout.sync, null);
-	
+		
 	smsDesc = (TextView) layout.findViewById(R.id.smsDesc);
 	smsMsg = (TextView) layout.findViewById(R.id.smsMsg);
 	

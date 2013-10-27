@@ -49,7 +49,7 @@
         android:layout_alignLeft="@+id/login"
         android:layout_below="@+id/login"
         android:layout_marginTop="21dp"
-        android:text="Small Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView

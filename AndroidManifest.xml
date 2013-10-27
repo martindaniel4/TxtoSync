@@ -25,6 +25,7 @@
         </activity>
         
         <activity android:name=".Sync"></activity>
+        <activity android:name=".SignUp"></activity>
         
         
     </application>

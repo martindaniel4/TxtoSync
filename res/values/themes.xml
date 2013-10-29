@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- the theme applied to the application or activity -->
+
+	<style name="TxtoTheme" parent="@android:style/Theme.Holo.Light">
+	    
+	    <item name="android:actionBarStyle">@style/MyActionBar</item>
+	    <item name="android:windowBackground">@color/smokewhite</item>
+	    <item name="android:textColor">@color/darkgrey</item>
+	    
+	</style>
+	
+    <!-- ActionBar styles -->
+    
+        <style name="MyActionBar"
+           parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/steelblue</item>
+        <item name="android:titleTextStyle">@style/textActionBar</item>
+        
+    </style>
+    
+        <style name="textActionBar">
+            
+             <item name="android:textSize">0sp</item>
+            <item name="android:textColor">@color/steelblue</item>
+            
+        </style>
+    
+</resources>

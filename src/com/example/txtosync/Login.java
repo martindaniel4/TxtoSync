@@ -28,7 +28,7 @@ import android.widget.TextView;
 // Créer ma classe et l'étendre à l'activité Android
 
 public class Login extends Activity implements OnClickListener {
-
+	
 	// Initializing variables
 	EditText inputEmail;
 	EditText inputPassword;

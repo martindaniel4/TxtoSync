@@ -6,45 +6,74 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/steelblue"
     tools:context=".MainActivity" >
-
-    <ImageView
-        android:id="@+id/logoTxto"
+    
+    <TextView
+        android:id="@+id/title_sync"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonSync"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp"
-        android:src="@drawable/logo_white" />
+        android:text="..."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/sms_synced"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_sync"
+        android:layout_marginTop="30dp"
+        android:text="Sms synced on Txto : "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+        <TextView
+            android:id="@+id/sms_synced_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/sms_to_sync"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/sms_synced"
+            android:text=".."
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/sms_to_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sms_synced"
+		android:layout_marginTop="30dp"
+        android:text="Sms to sync : "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+        <TextView
+            android:id="@+id/sms_to_sync_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sms_synced"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/sms_to_sync"
+            android:layout_marginTop="30dp"
+            android:text=".."
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <Button 
         android:id="@+id/buttonSync"
-        android:layout_width="400dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
+		android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
+        android:layout_below="@+id/sms_to_sync"
         android:text="Sync" />
 
     <TextView
-        android:id="@+id/smsDesc"
+        android:id="@+id/alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonSync"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
-        android:text="Medium Text"
-        android:textAlignment="center"
+        android:layout_below="@+id/buttonSync"
+        android:layout_marginTop="10dp"
+        android:text="..."
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/smsMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/smsDesc"
-        android:layout_below="@+id/logoTxto"
-        android:layout_marginTop="32dp"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+        
 </RelativeLayout>

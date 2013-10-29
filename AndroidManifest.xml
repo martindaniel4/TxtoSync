@@ -5,16 +5,17 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_SMS"/>
 	<uses-permission android:name="android.permission.INTERNET" />
 	
     <application
         android:allowBackup="true"
-        android:icon="@drawable/txto_logo"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:icon="@drawable/logo_white"
+        android:logo="@drawable/logo_white"
+        android:label="TxtoSync"
+        android:theme="@style/TxtoTheme" >
         <activity
             android:name="com.example.txtosync.Login"
             android:label="@string/app_name" >

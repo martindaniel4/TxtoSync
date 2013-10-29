@@ -5,5 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <color name="steelblue">#4682b4</color>
+    <color name="smokewhite">#f0eff4</color>
+    <color name="darkgrey">#4a463f</color>
 
 </resources>

@@ -15,6 +15,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 
+
+import com.example.txtosync.data.LoginObject;
+import com.google.gson.Gson;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -62,18 +66,14 @@ public class SignUp extends Activity implements OnClickListener {
 	
 	public class MyAsyncTask extends AsyncTask<String, Void, String>{
 
-		String token = null;
+		LoginObject signUp;
 		
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			
 			Log.i("martin", "trying to connect");
-			String tokenReceived = postData(params[0], params[1], params[2], params[3]);
-			
-			Log.i("martin",tokenReceived);
-			
-			token = tokenReceived;
+			signUp = postData(params[0], params[1], params[2], params[3]);
 			
 			return null;
 		}
@@ -88,15 +88,15 @@ public class SignUp extends Activity implements OnClickListener {
 			
 			Intent sync = new Intent(SignUp.this, Sync.class);
 			
-			if (token.matches(".*already.*")) {
+			if (signUp.getError() != null && !"".equals(signUp.getError())) {
 												
-				loginError.setText(token);
+				loginError.setText(signUp.getError());
 				
 			} else  {
 				
 				loginError.setText("Success !");
 				
-				sync.putExtra("token", token);
+				sync.putExtra("token", signUp.getToken());
 				
 				SignUp.this.startActivity(sync);
 				
@@ -109,13 +109,13 @@ public class SignUp extends Activity implements OnClickListener {
 		}
 		
 
-		public String postData(String firstname, String lastname, String email, String password) {
+		public LoginObject postData(String firstname, String lastname, String email, String password) {
 
 			// Create a new HttpClient and Post Header
 
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/register");
-			
+			//HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/register");
+			HttpPost httppost = new HttpPost("https://www.txto.io/api/v1/register");
 			
 			try {
 				// Ajouter email et password au sein de la requête post
@@ -136,9 +136,11 @@ public class SignUp extends Activity implements OnClickListener {
 				
 				String retourResponse = EntityUtils.toString(entity);
 				
-				String token = retourResponse.split(":")[1].replace("}", "").replaceAll("^\"|\"$", "");
+				Gson gson = new Gson();
+				
+				LoginObject login = gson.fromJson(retourResponse, LoginObject.class);
 
-				return token;
+				return login;
 
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block

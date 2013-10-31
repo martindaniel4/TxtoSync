@@ -25,6 +25,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.txtosync.data.LoginObject;
+import com.google.gson.Gson;
+
 // Créer ma classe et l'étendre à l'activité Android
 
 public class Login extends Activity implements OnClickListener {
@@ -56,18 +59,14 @@ public class Login extends Activity implements OnClickListener {
 	
 	public class MyAsyncTask extends AsyncTask<String, Void, String>{
 
-		String token = null;
+		LoginObject login;
 		
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			
 			Log.i("martin", "trying to connect");
-			String tokenReceived = postData(params[0], params[1]);
-			
-			Log.i("martin",tokenReceived);
-			
-			token = tokenReceived;
+			login = postData(params[0], params[1]);
 			
 			return null;
 		}
@@ -82,15 +81,15 @@ public class Login extends Activity implements OnClickListener {
 			
 			Intent sync = new Intent(Login.this, Sync.class);
 			
-			if (token.matches(".*Email.*") || token.matches(".*Invalid.*")) {
+			if (login.getError() != null && !"".equals(login.getError())) {
 												
-				loginError.setText(token);
+				loginError.setText(login.getError());
 				
 			} else  {
 				
 				loginError.setText("Success !");
 				
-				sync.putExtra("token", token);
+				sync.putExtra("token", login.getToken());
 				
 				Login.this.startActivity(sync);
 				
@@ -103,12 +102,13 @@ public class Login extends Activity implements OnClickListener {
 		}
 		
 
-		public String postData(String email, String password) {
+		public LoginObject postData(String email, String password) {
 
 			// Create a new HttpClient and Post Header
 
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/login");
+			//HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/login");
+			HttpPost httppost = new HttpPost("https://www.txto.io/api/v1/login");
 			
 			
 			try {
@@ -128,9 +128,11 @@ public class Login extends Activity implements OnClickListener {
 				
 				String retourResponse = EntityUtils.toString(entity);
 				
-				String token = retourResponse.split(":")[1].replace("}", "").replaceAll("^\"|\"$", "");
-
-				return token;
+				Gson gson = new Gson();
+				
+				LoginObject login = gson.fromJson(retourResponse, LoginObject.class);
+				
+				return login;
 
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block

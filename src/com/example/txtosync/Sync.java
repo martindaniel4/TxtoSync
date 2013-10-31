@@ -34,8 +34,11 @@ import android.widget.TextView;
 import android.view.View.OnClickListener;
 
 import com.example.txtosync.Login.MyAsyncTask;
+import com.example.txtosync.data.LoginObject;
 import com.example.txtosync.data.SMSData;
 import com.example.txtosync.data.MeInfo;
+import com.example.txtosync.data.SyncObject;
+import com.example.txtosync.data.TaskIdObject;
 import com.example.txtosync.data.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -111,7 +114,6 @@ public class Sync extends Activity implements OnClickListener {
 
 		smsDataJson = new Gson().toJson(smsList);
 		
-		Log.i("martin",smsDataJson.toString());
 
 		// Afficher le nombre de sms à synchroniser
 		
@@ -163,13 +165,11 @@ public class Sync extends Activity implements OnClickListener {
 			
 			while (done == false) {
 				
-				String retourGet = getSyncProgress(taskId);
+				TaskIdObject retourGet = getSyncProgress(taskId);
 				
-				String progressValue = retourGet.split(":")[2].replace("}", "").replaceAll("^\"|\"$", "");
-				
-				Log.i("martin",progressValue);
-				
-				if (progressValue.equals("null") ) {
+				if (retourGet.getPercent() == null ) {
+					
+			    Log.i("martin","dans le null");
 					
 				progress = "Please wait";
 				
@@ -182,13 +182,13 @@ public class Sync extends Activity implements OnClickListener {
 					e.printStackTrace();
 				} 
 				
-				} else if (Integer.parseInt(progressValue) < 100) {
+				} else if (Integer.parseInt(retourGet.getPercent()) < 100) {
 					
-				progress = progressValue + " %";
+				progress = retourGet.getPercent() + " %";
 				
-				} else if (Integer.parseInt(progressValue) >=100 ){
+				} else if (Integer.parseInt(retourGet.getPercent()) >=100 ){
 					
-				progress = progressValue + " %";
+				progress = retourGet.getPercent() + " %";
 				
 				done = true;
 					
@@ -196,7 +196,7 @@ public class Sync extends Activity implements OnClickListener {
 				
 				Log.i("martin","progress  "+progress);
 								
-				publishProgress(progress);				
+				publishProgress(progress);		
 				
 			}
 
@@ -222,11 +222,12 @@ public class Sync extends Activity implements OnClickListener {
 		}
 
 		public String postSmsData(String token, String smsDataJson) {
-
+			
 			// Create a new HttpClient and Post Header
 
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/sync");
+			//HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/sync");
+			HttpPost httppost = new HttpPost("https://www.txto.io/api/v1/sync");
 
 			try {
 				// Ajouter email et password au sein de la requête post
@@ -245,9 +246,13 @@ public class Sync extends Activity implements OnClickListener {
 				HttpEntity entity = response.getEntity();
 
 				String retourResponse = EntityUtils.toString(entity);
-
-				String taskId = retourResponse.split(":")[1].replace("}", "").replaceAll("^\"|\"$", "");
-
+				
+				Gson gson = new Gson();
+				
+				SyncObject syncResponse = gson.fromJson(retourResponse, SyncObject.class);
+				
+				String taskId = syncResponse.getTaskId();
+			
 				return taskId;
 
 			} catch (ClientProtocolException e) {
@@ -268,14 +273,13 @@ public class Sync extends Activity implements OnClickListener {
 			return null;
 		}
 
-		public String getSyncProgress(String taskId) {
+		public TaskIdObject getSyncProgress(String taskId) {
 
 			// Create a new HttpClient and Post Header
 			
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(
-					"http://10.0.2.2:3000/api/v1/progress/"+taskId);
-			
+			//HttpGet httpget = new HttpGet("http://10.0.2.2:3000/api/v1/progress/"+taskId);
+			HttpGet httpget = new HttpGet("https://www.txto.io/api/v1/progress/"+taskId);
 
 			try {
 				
@@ -285,8 +289,12 @@ public class Sync extends Activity implements OnClickListener {
 				HttpEntity entity = response.getEntity();
 
 				String retourResponse = EntityUtils.toString(entity);
-
-				return retourResponse;
+				
+				Gson gson = new Gson();
+				
+				TaskIdObject retourTaskId = gson.fromJson(retourResponse, TaskIdObject.class);
+			
+				return retourTaskId;
 
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
@@ -349,8 +357,10 @@ public class Sync extends Activity implements OnClickListener {
 			// Create a new HttpClient and Post Header
 
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/me");
-
+			//HttpPost httppost = new HttpPost("http://10.0.2.2:3000/api/v1/me");
+			HttpPost httppost = new HttpPost("https://www.txto.io/api/v1/me");
+			
+			
 			try {
 				// Ajouter email et password au sein de la requête post
 
@@ -366,12 +376,10 @@ public class Sync extends Activity implements OnClickListener {
 				HttpEntity entity = response.getEntity();
 
 				String retourResponse = EntityUtils.toString(entity);
-										
+				
 				Gson gson = new Gson();
 				
 				MeInfo meinfo = gson.fromJson(retourResponse, MeInfo.class);
-			
-				User user = meinfo.getUser();
 			
 				return meinfo;
 
